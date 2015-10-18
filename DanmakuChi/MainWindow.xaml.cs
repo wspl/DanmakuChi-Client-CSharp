@@ -80,6 +80,9 @@ namespace DanmakuChi {
                 btnConnect.Content = "Connect";
                 isConnected = false;
                 btnConnect.IsEnabled = true;
+                if (dmkCurt != null) {
+                    dmkCurt.Close();
+                }
             }));
         }
         private void SocketDotIO(object sender, DoWorkEventArgs e) {
@@ -106,6 +109,10 @@ namespace DanmakuChi {
             bg.RunWorkerCompleted += (s, ee) => {
                 socket.Close();
             };
+        }
+
+        private void Window_Closed(object sender, EventArgs e) {
+            Application.Current.Shutdown();
         }
     }
 }

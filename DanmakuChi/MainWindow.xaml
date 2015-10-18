@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DanmakuChi"
         mc:Ignorable="d"
-        Title="DanmakuChi!" Height="545" Width="585">
+        Title="DanmakuChi!" Height="545" Width="585" Closed="Window_Closed">
     <Grid Margin="0,0,0,3">
         <Button x:Name="btnShowDmkCurt" Content="Show Danmaku Curtain" HorizontalAlignment="Left" Margin="10,459,0,0" VerticalAlignment="Top" Width="169" Height="33" Click="btnShowDmkCurt_Click"/>
         <Button x:Name="btnShotDmk" Content="Shoot Danmaku" HorizontalAlignment="Left" Margin="188,459,0,0" VerticalAlignment="Top" Width="188" Height="33" Click="btnShotDmk_Click"/>
