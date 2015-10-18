@@ -5,17 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DanmakuChi"
         mc:Ignorable="d"
-        Title="DanmakuChi!" Height="545" Width="585" Closed="Window_Closed">
+        Title="DanmakuChi!" Height="535" Width="585" Closed="Window_Closed">
     <Grid Margin="0,0,0,3">
-        <Button x:Name="btnShowDmkCurt" Content="Show Danmaku Curtain" HorizontalAlignment="Left" Margin="10,459,0,0" VerticalAlignment="Top" Width="169" Height="33" Click="btnShowDmkCurt_Click"/>
-        <Button x:Name="btnShotDmk" Content="Shoot Danmaku" HorizontalAlignment="Left" Margin="188,459,0,0" VerticalAlignment="Top" Width="188" Height="33" Click="btnShotDmk_Click"/>
+        <Button x:Name="btnShowDmkCurt" Content="Show Danmaku Curtain" HorizontalAlignment="Left" Margin="10,520,0,0" VerticalAlignment="Top" Width="165" Height="33" Click="btnShowDmkCurt_Click"/>
+        <Button x:Name="btnShotDmk" Content="Shoot Danmaku" HorizontalAlignment="Left" Margin="185,520,0,0" VerticalAlignment="Top" Width="128" Height="33" Click="btnShotDmk_Click" RenderTransformOrigin="0.703,1.545"/>
         <Button x:Name="btnConnect" Content="Connect" HorizontalAlignment="Left" Margin="488,10,0,0" VerticalAlignment="Top" Width="75" Click="button_Click" Height="55"/>
         <Label x:Name="labelServer" Content="Server" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textServer" HorizontalAlignment="Left" Height="25" Margin="80,10,0,0" TextWrapping="Wrap" Text="http://121.42.202.71:10233" VerticalAlignment="Top" Width="394" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="textServer" HorizontalAlignment="Left" Height="25" Margin="80,10,0,0" TextWrapping="Wrap" Text="http://121.42.202.71:10233" VerticalAlignment="Top" Width="394" Grid.ColumnSpan="2" VerticalContentAlignment="Center"/>
         <ListBox x:Name="listLog" HorizontalAlignment="Left" Height="358" Margin="10,84,0,0" VerticalAlignment="Top" Width="553" Grid.ColumnSpan="2"/>
         <Label x:Name="labelChannel" Content="Channel" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textChannel" HorizontalAlignment="Left" Height="25" Margin="80,40,0,0" TextWrapping="Wrap" Text="Demo" VerticalAlignment="Top" Width="394" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="chkShadow" Content="Enable Shadow Effect" HorizontalAlignment="Left" Margin="400,469,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <TextBox x:Name="textChannel" HorizontalAlignment="Left" Height="25" Margin="80,40,0,0" TextWrapping="Wrap" Text="Demo" VerticalAlignment="Top" Width="394" Grid.ColumnSpan="2" VerticalContentAlignment="Center"/>
+        <CheckBox x:Name="chkShadow" Content="Enable Shadow Effect" HorizontalAlignment="Left" Margin="412,466,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <Button x:Name="btnQRCode" Content="Show QRCode" HorizontalAlignment="Left" Margin="10,457,0,0" VerticalAlignment="Top" Width="165" Height="33" Click="btnQRCode_Click"/>
 
     </Grid>
 </Window>

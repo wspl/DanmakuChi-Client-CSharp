@@ -114,5 +114,10 @@ namespace DanmakuChi {
         private void Window_Closed(object sender, EventArgs e) {
             Application.Current.Shutdown();
         }
+
+        private void btnQRCode_Click(object sender, RoutedEventArgs e) {
+            QRCode qrcode = new QRCode("dmk://channel/" + textChannel.Text, "Channel QRCode");
+            qrcode.Show();
+        }
     }
 }
