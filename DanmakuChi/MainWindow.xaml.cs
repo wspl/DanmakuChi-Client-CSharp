@@ -13,12 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Quobject.SocketIoClientDotNet.Client;
 using System.ComponentModel;
 using System.Web.Security;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using System.IO;
+using WebSocketSharp;
 
 namespace DanmakuChi {
 
@@ -28,8 +28,7 @@ namespace DanmakuChi {
     public partial class MainWindow {
         public DanmakuCurtain dmkCurt;
         public Boolean isConnected = false;
-        public BackgroundWorker bg = new BackgroundWorker();
-
+        public WebSocket ws;
         public MainWindow() {
             try {
                 InitializeComponent();
@@ -47,9 +46,6 @@ namespace DanmakuChi {
                 textWechat.Text = config.Wechat.url;
                 chkShadow.IsChecked = config.Advanced.enableShadow;
 
-                // Load Socket.IO
-                bg.WorkerSupportsCancellation = true;
-                bg.DoWork += new DoWorkEventHandler(SocketDotIO);
             } catch (Exception e) {
                 AppendLog(e.Message);
             }
@@ -114,46 +110,77 @@ namespace DanmakuChi {
             if (!isConnected) {
                 btnConnect.Content = "Connecting...";
                 btnConnect.IsEnabled = false;
-                bg.RunWorkerAsync(new String[] { textServer.Text, textChannel.Text });
+
+                var server = textServer.Text;
+                var channel = textChannel.Text;
+                
+                ws = new WebSocket(server + "/ws?channel=" + channel);
+
+                ws.OnMessage += (s, ee) => {
+                    int dividerPos = ee.Data.IndexOf(':');
+                    string type = ee.Data.Substring(0, dividerPos);
+                    string body = ee.Data.Substring(dividerPos + 1);
+                    switch (type) {
+                        case "INFO":
+                            if (body == "OK") {
+                                AppendLog("Successfully joined " + channel);
+                                InitDanmaku();
+                            } else {
+                                AppendLog("Channel " + channel + " does not exist.");
+                                CancelDMK();
+                            }
+                            break;
+                        case "DANMAKU":
+                            ShootDanmaku(body);
+                            break;
+                    }
+                };
+                ws.OnClose += (s, ee) => {
+                    AppendLog("Disconnected!");
+                };
+                ws.Connect();
             } else {
                 CancelDMK();
             }
         }
         private void CancelDMK() {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-                bg.CancelAsync();
-                btnConnect.Content = "Connect";
-                isConnected = false;
-                btnConnect.IsEnabled = true;
-                if (dmkCurt != null) {
-                    dmkCurt.Close();
-                }
-            }));
+            ws.Close();
+            btnConnect.Content = "Connect";
+            isConnected = false;
+            btnConnect.IsEnabled = true;
+            if (dmkCurt != null) {
+                dmkCurt.Close();
+            }
         }
         private void SocketDotIO(object sender, DoWorkEventArgs e) {
             var server = ((string[])e.Argument)[0].ToString();
-            var socket = IO.Socket(server);
             var channel = ((string[])e.Argument)[1].ToString();
             var channelMd5 = FormsAuthentication.HashPasswordForStoringInConfigFile(channel, "MD5");
-            socket.On(Socket.EVENT_CONNECT, () => {
-                socket.Emit("channel", channelMd5);
-            });
-            socket.On("channel", (data) => {
-                AppendLog("Successfully connected to " + server);
-                if (data.ToString() != "no") {
-                    AppendLog("Successfully joined " + channel);
-                    InitDanmaku();
-                } else {
-                    AppendLog("Channel " + channel + " does not exist.");
-                    CancelDMK();
+
+            var ws = new WebSocket(server + "/ws?channel=" + channel);
+            ws.OnMessage += (s, ee) => {
+                int dividerPos = ee.Data.IndexOf(':');
+                string type = ee.Data.Substring(0, dividerPos);
+                string body = ee.Data.Substring(dividerPos + 1);
+                switch (type) {
+                    case "INFO":
+                        if (body == "OK") {
+                            AppendLog("Successfully joined " + channel);
+                            InitDanmaku();
+                        } else {
+                            AppendLog("Channel " + channel + " does not exist.");
+                            CancelDMK();
+                        }
+                        break;
+                    case "DANMAKU":
+                        ShootDanmaku(body);
+                        break;
                 }
-            });
-            socket.On(channelMd5, (data) => {
-                ShootDanmaku(data.ToString());
-            });
-            bg.RunWorkerCompleted += (s, ee) => {
-                socket.Close();
             };
+            ws.OnClose += (s, ee) => {
+                AppendLog("DEAD");
+            };
+            ws.Connect();
         }
 
         private void Window_Closed(object sender, EventArgs e) {

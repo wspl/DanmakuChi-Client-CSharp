@@ -39,6 +39,7 @@
 
             </Grid>
         </GroupBox>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="22,40,0,0" TextWrapping="Wrap" Text="DanmakuChi!" VerticalAlignment="Top" FontSize="29.333"/>
 
     </Grid>
 </Window>
