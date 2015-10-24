@@ -4,19 +4,41 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DanmakuChi"
+        xmlns:chrome="http://schemes.grabacr.net/winfx/2014/chrome"
         mc:Ignorable="d"
-        Title="DanmakuChi!" Height="535" Width="585" Closed="Window_Closed">
-    <Grid Margin="0,0,0,3">
-        <Button x:Name="btnShowDmkCurt" Content="Show Danmaku Curtain" HorizontalAlignment="Left" Margin="10,520,0,0" VerticalAlignment="Top" Width="165" Height="33" Click="btnShowDmkCurt_Click"/>
-        <Button x:Name="btnShotDmk" Content="Shoot Danmaku" HorizontalAlignment="Left" Margin="185,520,0,0" VerticalAlignment="Top" Width="128" Height="33" Click="btnShotDmk_Click" RenderTransformOrigin="0.703,1.545"/>
-        <Button x:Name="btnConnect" Content="Connect" HorizontalAlignment="Left" Margin="488,10,0,0" VerticalAlignment="Top" Width="75" Click="button_Click" Height="55"/>
-        <Label x:Name="labelServer" Content="Server" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textServer" HorizontalAlignment="Left" Height="25" Margin="80,10,0,0" TextWrapping="Wrap" Text="http://121.42.202.71:10233" VerticalAlignment="Top" Width="394" Grid.ColumnSpan="2" VerticalContentAlignment="Center"/>
-        <ListBox x:Name="listLog" HorizontalAlignment="Left" Height="358" Margin="10,84,0,0" VerticalAlignment="Top" Width="553" Grid.ColumnSpan="2"/>
-        <Label x:Name="labelChannel" Content="Channel" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textChannel" HorizontalAlignment="Left" Height="25" Margin="80,40,0,0" TextWrapping="Wrap" Text="Demo" VerticalAlignment="Top" Width="394" Grid.ColumnSpan="2" VerticalContentAlignment="Center"/>
-        <CheckBox x:Name="chkShadow" Content="Enable Shadow Effect" HorizontalAlignment="Left" Margin="412,466,0,0" VerticalAlignment="Top" IsChecked="True"/>
-        <Button x:Name="btnQRCode" Content="Show QRCode" HorizontalAlignment="Left" Margin="10,457,0,0" VerticalAlignment="Top" Width="165" Height="33" Click="btnQRCode_Click"/>
+        Title="DanmakuChi!" Height="814" Width="964.5" Closed="Window_Closed">
+
+    <Grid Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="233"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="listLog" 
+                 Margin="10,10,10,10" Grid.Column="1"/>
+        <GroupBox x:Name="groupBox" Header="Session" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Height="231" Width="212">
+            <Grid>
+                <Button x:Name="btnConnect" Content="Connect" HorizontalAlignment="Left" Margin="10,155,0,0" VerticalAlignment="Top" Width="108" Click="button_Click" Height="37"/>
+                <Label x:Name="labelServer" Content="Server" HorizontalAlignment="Left" Margin="8,15,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="textServer" HorizontalAlignment="Left" Height="25" Margin="10,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" VerticalContentAlignment="Center"/>
+                <Label x:Name="labelChannel" Content="Channel" HorizontalAlignment="Left" Margin="8,77,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="textChannel" HorizontalAlignment="Left" Height="25" Margin="10,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" VerticalContentAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBox_Copy" Header="Wechat QRCode" HorizontalAlignment="Left" Margin="10,362,0,0" VerticalAlignment="Top" Height="225" Width="212">
+            <Grid>
+                <Button x:Name="btnQRCode" Content="Show QRCode" HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Height="37" Click="btnQRCode_Click" Margin="10,152,0,0"/>
+                <Label x:Name="labelWechat" Content="Wechat Url" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                <TextBox x:Name="textWechat" HorizontalAlignment="Left" Height="87" VerticalAlignment="Top" Width="180" Margin="10,40,0,0" MaxLines="1" TextWrapping="Wrap" MaxLength="10"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBox_Copy1" Header="Advanced/Debug Options" HorizontalAlignment="Left" Margin="10,602,0,0" VerticalAlignment="Top" Height="155" Width="212">
+            <Grid>
+                <Button x:Name="btnShowDmkCurt" Content="Show Danmaku Curtain" HorizontalAlignment="Left" VerticalAlignment="Top" Width="173" Height="33" Click="btnShowDmkCurt_Click" Margin="12,45,0,0"/>
+                <Button x:Name="btnShotDmk" Content="Shoot A Test Danmaku" HorizontalAlignment="Left" VerticalAlignment="Top" Width="173" Height="33" Click="btnShotDmk_Click" RenderTransformOrigin="0.703,1.545" Margin="12,90,0,0"/>
+                <CheckBox x:Name="chkShadow" Content="Enable Shadow Effect" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True" Margin="12,10,0,0"/>
+
+            </Grid>
+        </GroupBox>
 
     </Grid>
 </Window>

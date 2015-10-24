@@ -20,7 +20,7 @@
 - [ ] 使用 GDI+ 重写弹幕展示
 - [ ] 增加弹幕颜色设置支持
 - [ ] 增加弹幕位置设置支持
-- [ ] 更科学的弹幕飞行速度
+- [x] 更科学的弹幕飞行速度
 
 ## Contributor
 * [Plutonist(wspl)](https://github.com/wspl)

@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="QRCode" Width="360" Height="360">
     <Grid>
-        <Image x:Name="imgBox" Margin="20"/>
+        <Image x:Name="imgBox" Margin="20,20,20,40"/>
+        <TextBox x:Name="textBox" Margin="20,0,20,10" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Bottom" Height="24" VerticalContentAlignment="Center"/>
 
     </Grid>
 </Window>

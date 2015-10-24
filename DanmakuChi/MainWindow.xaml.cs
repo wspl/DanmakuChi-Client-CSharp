@@ -16,20 +16,59 @@ using System.Windows.Threading;
 using Quobject.SocketIoClientDotNet.Client;
 using System.ComponentModel;
 using System.Web.Security;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
+using System.IO;
 
 namespace DanmakuChi {
 
     /// <summary>
     /// Interactive logic of MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window {
+    public partial class MainWindow {
         public DanmakuCurtain dmkCurt;
         public Boolean isConnected = false;
         public BackgroundWorker bg = new BackgroundWorker();
+
         public MainWindow() {
-            InitializeComponent();
-            bg.WorkerSupportsCancellation = true;
-            bg.DoWork += new DoWorkEventHandler(SocketDotIO);
+            try {
+                InitializeComponent();
+
+                AppendLog("Welcome to DanmakuChi CSharp Client!");
+
+                // Load Configuration
+                var content = File.ReadAllText("./config.yaml");
+                var input = new StringReader(content);
+                var deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
+                var config = deserializer.Deserialize<Config>(input);
+
+                textServer.Text = config.Session.server;
+                textChannel.Text = config.Session.channel;
+                textWechat.Text = config.Wechat.url;
+                chkShadow.IsChecked = config.Advanced.enableShadow;
+
+                // Load Socket.IO
+                bg.WorkerSupportsCancellation = true;
+                bg.DoWork += new DoWorkEventHandler(SocketDotIO);
+            } catch (Exception e) {
+                AppendLog(e.Message);
+            }
+        }
+
+        public class Config {
+            public Session Session { get; set; }
+            public Wechat Wechat { get; set; }
+            public Advanced Advanced { get; set; }
+        }
+        public class Session {
+            public string server { get; set; }
+            public string channel { get; set; }
+        }
+        public class Wechat {
+            public string url { get; set; }
+        }
+        public class Advanced {
+            public bool enableShadow { get; set; }
         }
 
         private void btnShowDmkCurt_Click(object sender, RoutedEventArgs e) {
@@ -38,12 +77,16 @@ namespace DanmakuChi {
         }
 
         private void btnShotDmk_Click(object sender, RoutedEventArgs e) {
-            Random ran = new Random();
-            var text = "2";
-            for (var i = 0; i < ran.Next(1, 40); i += 1) {
-                text += "3";
+            if (dmkCurt != null) {
+                Random ran = new Random();
+                var text = "2";
+                for (var i = 0; i < ran.Next(1, 40); i += 1) {
+                    text += "3";
+                }
+                dmkCurt.Shoot(text);
+            } else {
+                MessageBox.Show("Cannot find any curtains.");
             }
-            dmkCurt.Shoot(text);
         }
         private void InitDanmaku() {
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
@@ -57,12 +100,14 @@ namespace DanmakuChi {
         private void AppendLog(string text) {
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 listLog.Items.Add("[" + DateTime.Now.ToString() + "] " + text);
+                listLog.SelectedIndex = listLog.Items.Count - 1;
+                listLog.ScrollIntoView(listLog.SelectedItem);
             }));
         }
         private void ShootDanmaku(string text) {
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 dmkCurt.Shoot(text);
-                listLog.Items.Add("[" + DateTime.Now.ToString() + "] " + text);
+                AppendLog(text);
             }));
         }
         private void button_Click(object sender, RoutedEventArgs e) {
@@ -116,7 +161,7 @@ namespace DanmakuChi {
         }
 
         private void btnQRCode_Click(object sender, RoutedEventArgs e) {
-            QRCode qrcode = new QRCode("dmk://channel/" + textChannel.Text, "Channel QRCode");
+            QRCode qrcode = new QRCode(textWechat.Text + "?dmk_channel=" + textChannel.Text, "Channel QRCode");
             qrcode.Show();
         }
     }

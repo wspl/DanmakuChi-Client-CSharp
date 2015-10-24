@@ -73,6 +73,12 @@ namespace DanmakuChi {
             return -1;
         }
 
+        public void clearLine() {
+            for (int line = 0; line < lines; line += 1) {
+                isOccupy[line] = false;
+            }
+        }
+
         public int lineLocationY(int line) {
             return (line * lineHeight) + paddingTop;
         }
@@ -90,7 +96,8 @@ namespace DanmakuChi {
             var line = usableLine();
 
             if (line == -1) {
-                return;
+                clearLine();
+                line = usableLine();
             }
 
             FrameworkElement danmaku = new OutlinedDanmaku(text);
@@ -106,7 +113,9 @@ namespace DanmakuChi {
             var anim = new DoubleAnimation();
             anim.From = this.container.RenderSize.Width;
             anim.To = -danmaku.DesiredSize.Width - 1600;
-            anim.SpeedRatio = .05;
+            anim.SpeedRatio = danmaku.DesiredSize.Width > 80 ?
+                (.05 * (danmaku.DesiredSize.Width / 1500 + 1)) :
+                (.1 * ((100 - danmaku.DesiredSize.Width) / 100 + 1));
             TranslateTransform trans = new TranslateTransform();
             danmaku.RenderTransform = trans;
 

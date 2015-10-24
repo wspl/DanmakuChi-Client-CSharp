@@ -21,6 +21,7 @@ namespace DanmakuChi {
     public partial class QRCode : Window {
         public QRCode(string data, string title) {
             InitializeComponent();
+            textBox.Text = data;
             Title = title;
             var qrCodeEncoder = new QRCodeEncoder();
             qrCodeEncoder.QRCodeScale = 16;
