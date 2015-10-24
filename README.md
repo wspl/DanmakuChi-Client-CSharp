@@ -14,10 +14,10 @@
 * Visual Studio Community 2015
 * .Net Framework 4.0
 * WPF (Windows Presentation Foundation)
-* [SocketIoClientDotNet](https://github.com/Quobject/SocketIoClientDotNet)
+* WebSocket
 
 ## TODO List
-- [ ] 使用 GDI+ 重写弹幕展示
+- [ ] 使用 GDI+ 渲染弹幕（待定）
 - [ ] 增加弹幕颜色设置支持
 - [ ] 增加弹幕位置设置支持
 - [x] 更科学的弹幕飞行速度
