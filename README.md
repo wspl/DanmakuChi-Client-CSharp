@@ -12,7 +12,7 @@
 ## 技术栈
 该 C# 版本的客户端中，涉及到的技术栈如下：
 * Visual Studio Community 2015
-* .Net Framework 4.6
+* .Net Framework 4.0
 * WPF (Windows Presentation Foundation)
 * [SocketIoClientDotNet](https://github.com/Quobject/SocketIoClientDotNet)
 
